@@ -182,7 +182,7 @@ app.post("/verifyAdmin", AuthAdmin, (req, res) => {
 
 app.post("/verifyUser", AuthUser, (req, res) => {
   const id = req.body.id.toString().toLowerCase();
-  db.doc(`/users/${id}`)
+  db.doc(`/patients/${id}`)
     .get()
     .then((doc) => {
       if (doc.exists) {
