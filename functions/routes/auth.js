@@ -12,7 +12,7 @@ app.post("/signup", (req, res) => {
   //const rol = req.body.rol;
 
   let token, userId;
-  db.doc(`/users/${id}`)
+  db.doc(`/patients/${id}`)
     .get()
     .then((doc) => {
       if (doc.exists) {
@@ -31,11 +31,11 @@ app.post("/signup", (req, res) => {
               id,
               name,
               password,
-              rol: "user",
+              rol: "patient",
               createdAt: new Date().toISOString(),
               userId: userId,
             };
-            return db.doc(`/users/${newUser.id}`).set(newUser);
+            return db.doc(`/patients/${newUser.id}`).set(newUser);
           })
           .then(() => {
             return res.status(200).json({ token });
@@ -61,7 +61,7 @@ app.post("/login", (req, res) => {
     })
     .then((tokenID) => {
       token = tokenID;
-      return db.collection("users").doc(id).get();
+      return db.collection("patients").doc(id).get();
     })
     .then((doc) => {
       return res.json({

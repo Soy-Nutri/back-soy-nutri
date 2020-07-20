@@ -81,9 +81,9 @@ const AuthUser = (req, res, next) => {
     .then((decodedToken) => {
       req.user = decodedToken;
       return db
-        .collection("users")
+        .collection("patients")
         .where("userId", "==", req.user.uid)
-        .where("rol", "==", "user")
+        .where("rol", "==", "patient")
         .limit(1)
         .get();
     })
@@ -106,9 +106,9 @@ const AuthUser = (req, res, next) => {
           return res.status(401).json({ message: "Token expired" });
         } else {
           return db
-            .collection("users")
+            .collection("patients")
             .where("userId", "==", decoded.user_id)
-            .where("rol", "==", "user")
+            .where("rol", "==", "patient")
             .limit(1)
             .get()
             .then((data) => {
