@@ -172,7 +172,7 @@ app.post("/verifyAdmin", AuthAdmin, (req, res) => {
       if (doc.exists) {
         return res.status(200).json({ rol: doc.data().rol });
       } else {
-        return res.status(400).json({ message: "Invalid User" });
+        return res.status(400).json({ message: "Invalid admin" });
       }
     })
     .catch((err) => {
@@ -188,7 +188,7 @@ app.post("/verifyUser", AuthUser, (req, res) => {
       if (doc.exists) {
         return res.status(200).json({ rol: doc.data().rol });
       } else {
-        return res.status(400).json({ message: "Invalid User" });
+        return res.status(400).json({ message: "Invalid patien" });
       }
     })
     .catch((err) => {
