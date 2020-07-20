@@ -17,7 +17,7 @@ const AuthAdmin = (req, res, next) => {
     .then((decodedToken) => {
       req.user = decodedToken;
       return db
-        .collection("users")
+        .collection("admin")
         .where("userId", "==", req.user.uid)
         .where("rol", "==", "admin")
         .limit(1)
@@ -42,7 +42,7 @@ const AuthAdmin = (req, res, next) => {
           return res.status(401).json({ message: "Token expired" });
         } else {
           return db
-            .collection("users")
+            .collection("admin")
             .where("userId", "==", decoded.user_id)
             .where("rol", "==", "admin")
             .limit(1)
