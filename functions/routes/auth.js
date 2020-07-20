@@ -4,7 +4,7 @@ const app = express.Router();
 const { db, firebase } = require("../utils/init");
 const { AuthAdmin, AuthUser } = require("../utils/middlewareAuth");
 
-app.post("/signup", (req, res) => {
+app.post("/signup", AuthAdmin, (req, res) => {
   var Crypto = require("crypto-js");
   const id = req.body.id.toString().toLowerCase();
   const password = Crypto.SHA256(req.body.password.toString()).toString();
@@ -47,7 +47,7 @@ app.post("/signup", (req, res) => {
     });
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", AuthAdmin, (req, res) => {
   var Crypto = require("crypto-js");
   const id = req.body.id.toString().toLowerCase();
   const password = Crypto.SHA256(req.body.password.toString()).toString();
@@ -92,12 +92,10 @@ app.post("/signupAdmin", (req, res) => {
   //const rol = req.body.rol;
 
   let token, userId;
-  db.doc(`/admin/${id}`)
+  db.collection("admin")
     .get()
-    .then((doc) => {
-      if (doc.exists) {
-        return res.status(409).json({ message: "ID is already use." });
-      } else {
+    .then((snapshot) => {
+      if (snapshot._size === 0) {
         return firebase
           .auth()
           .createUserWithEmailAndPassword(`${id}@soynutriadmin.tk`, password)
@@ -123,6 +121,8 @@ app.post("/signupAdmin", (req, res) => {
           .catch((error) => {
             return res.status(500).json({ error: error.code });
           });
+      } else {
+        return res.status(409).json({ message: "Limit reached of admin." });
       }
     });
 });
