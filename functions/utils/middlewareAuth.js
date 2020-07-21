@@ -19,7 +19,6 @@ const AuthAdmin = (req, res, next) => {
       return db
         .collection("admin")
         .where("userId", "==", req.user.uid)
-        .where("rol", "==", "admin")
         .limit(1)
         .get();
     })
@@ -36,7 +35,7 @@ const AuthAdmin = (req, res, next) => {
         const decoded = jwtDecode(idToken);
         req.user = decoded;
         const oneDayInSeconds = 86400;
-        const duration = oneDayInSeconds * 3; //three days duration
+        const duration = oneDayInSeconds * 1; //three days duration
         //decoded auth time are seconds, Date now miliseconds
         if ((decoded.auth_time + duration) * 1000 < Date.now()) {
           return res.status(401).json({ message: "Token expired" });
@@ -44,7 +43,6 @@ const AuthAdmin = (req, res, next) => {
           return db
             .collection("admin")
             .where("userId", "==", decoded.user_id)
-            .where("rol", "==", "admin")
             .limit(1)
             .get()
             .then((data) => {
@@ -83,7 +81,6 @@ const AuthUser = (req, res, next) => {
       return db
         .collection("patients")
         .where("userId", "==", req.user.uid)
-        .where("rol", "==", "patient")
         .limit(1)
         .get();
     })
@@ -100,7 +97,7 @@ const AuthUser = (req, res, next) => {
         const decoded = jwtDecode(idToken);
         req.user = decoded;
         const oneDayInSeconds = 86400;
-        const duration = oneDayInSeconds * 3; //three days duration
+        const duration = oneDayInSeconds * 30; //three days duration
         //decoded auth time are seconds, Date now miliseconds
         if ((decoded.auth_time + duration) * 1000 < Date.now()) {
           return res.status(401).json({ message: "Token expired" });
@@ -108,7 +105,6 @@ const AuthUser = (req, res, next) => {
           return db
             .collection("patients")
             .where("userId", "==", decoded.user_id)
-            .where("rol", "==", "patient")
             .limit(1)
             .get()
             .then((data) => {
