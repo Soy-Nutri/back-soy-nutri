@@ -177,3 +177,9 @@ NA.
 - JSON
 #### Respuesta:
 - Control de la fecha seleccionada
+
+### 10. Modify Control
+
+### 11. Delete one control
+
+### 12. Delete all control
