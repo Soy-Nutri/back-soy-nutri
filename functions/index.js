@@ -13,7 +13,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //Routes
-app.use("/auth", require("./routes/auth"));
+app.use("/adminAuth", require("./routes/adminAuth"));
+app.use("/admin", require("./routes/admin"));
+app.use("/patients", require("./routes/patients"));
+app.use("/patientsAuth", require("./routes/patientsAuth"));
+app.use("/general", require("./routes/generalInfo"));
 
 //export
 exports.api = functions.https.onRequest(app);
