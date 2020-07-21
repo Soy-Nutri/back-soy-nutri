@@ -10,8 +10,10 @@ Solo puede existir un administrador, al ingresarlo se bloquea la creación de ot
 #### Campos necesatrios:
 - rut 
 - password
-#### Formato de envio
+#### Formato de envio:
 - JSON
+#### Respuesta:
+- Token
 
 ### 2. https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/login
 #### Tipo de petición:
@@ -21,8 +23,11 @@ NA.
 #### Campos necesatrios:
 - rut 
 - password
-#### Formato de envio
+#### Formato de envio:
 - JSON
+#### Respuesta:
+- Token
+- rut
 
 ### 3. https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/changePassword
 #### Tipo de petición:
@@ -35,8 +40,11 @@ Se debe enviar un header con la siguiente información:
 - rut 
 - password
 - newPassword
-#### Formato de envio
+#### Formato de envio:
 - JSON
+#### Respuesta:
+- Mensaje
+- Token
 
 ### 4. https://us-central1-back-f0378.cloudfunctions.net/api/patientsAuth/signup
 #### Tipo de petición:
@@ -56,8 +64,10 @@ Se debe enviar un header con la siguiente información:
 - birth_date
 - sex
 - alimentation
-#### Formato de envio
+#### Formato de envio:
 - JSON
+#### Respuesta:
+- Token
 
 ### 5. https://us-central1-back-f0378.cloudfunctions.net/api/patientsAuth/login
 #### Tipo de petición:
@@ -67,8 +77,20 @@ NA.
 #### Campos necesatrios:
 - rut 
 - password
-#### Formato de envio
+#### Formato de envio:
 - JSON
+#### Respuesta:
+- Token
+- rut
+- names
+- father_last_name
+- mother_last_name
+- city
+- email
+- phone
+- birth_date
+- sex
+- alimentation
 
 ### 6. https://us-central1-back-f0378.cloudfunctions.net/api/patientsAuth/changePassword
 #### Tipo de petición:
@@ -81,5 +103,8 @@ Se debe enviar un header con la siguiente información:
 - rut 
 - password
 - newPassword
-#### Formato de envio
+#### Formato de envio:
 - JSON
+#### Respuesta:
+- Mensaje
+- Token
