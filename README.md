@@ -91,6 +91,8 @@ NA.
 - birth_date
 - sex
 - alimentation
+- in_date
+- state
 
 ### 6. https://us-central1-back-f0378.cloudfunctions.net/api/patientsAuth/changePassword
 #### Tipo de petición:
