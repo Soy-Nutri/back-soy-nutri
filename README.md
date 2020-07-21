@@ -110,3 +110,35 @@ Se debe enviar un header con la siguiente información:
 #### Respuesta:
 - Mensaje
 - Token
+
+### 1. https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/push
+#### Tipo de petición:
+POST
+#### Restricciones: 
+Se debe enviar un header con la siguiente información:
+- key: Authorization
+- value: Bearer + Token inicio de sesión del administrador
+#### Campos necesatrios:
+- rut 
+- date
+- weight
+- size
+- cbr
+- cbc
+- cc_min
+- cc_max
+- cad_max
+- triceps_fold
+- subscapular_fold
+- abdominal_fold
+- imc
+- dni
+- biological_age
+- visceral_fat
+- fat
+- mass
+- muscle_mass
+#### Formato de envio:
+- JSON
+#### Respuesta:
+- Mensaje
