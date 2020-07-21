@@ -3,9 +3,13 @@ const app = express.Router();
 
 const { db, firebase } = require("../utils/init");
 const { isEmpty } = require("../utils/functions");
-const { AuthAdmin, AuthUser } = require("../utils/middlewareAuth");
+const {
+  AuthAdmin,
+  AuthUser,
+  decideMiddleware,
+} = require("../utils/middlewareAuth");
 
-app.post("/push", AuthAdmin, (req, res) => {
+app.post("/addControl", AuthAdmin, (req, res) => {
   const rut = req.body.rut.toString();
   const control = {
     date: req.body.date.toString(),
@@ -85,6 +89,72 @@ app.post("/push", AuthAdmin, (req, res) => {
         }
       } else {
         return res.status(400).json({ error: "User not found." });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({ error });
+    });
+});
+
+app.get("/getCarnet/:user/:rut", decideMiddleware, (req, res) => {
+  const rut = req.params.rut;
+  db.doc(`/patients/${rut}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        if (doc.data().controls) {
+          if (doc.data().controls.length > 0) {
+            return res.status(200).json({ carnet: doc.data().controls });
+          } else {
+            return res
+              .status(400)
+              .json({ error: "The patients not have controls." });
+          }
+        } else {
+          return res
+            .status(400)
+            .json({ error: "The patients not have controls." });
+        }
+      } else {
+        return res.status(400).json({ error: "The patients not exits." });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({ error });
+    });
+});
+
+app.get("/getCarnet/:user/:rut/:date", decideMiddleware, (req, res) => {
+  const rut = req.params.rut;
+  const date = new Date(req.params.date).toISOString();
+  db.doc(`/patients/${rut}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        if (doc.data().controls) {
+          if (doc.data().controls.length > 0) {
+            for (let i = 0; i < doc.data().controls.length; i++) {
+              if (doc.data().controls[i].date === date) {
+                return res
+                  .status(200)
+                  .json({ control: doc.data().controls[i] });
+              }
+            }
+            return res.status(400).json({
+              error: "The patients not have controls with this date.",
+            });
+          } else {
+            return res
+              .status(400)
+              .json({ error: "The patients not have controls." });
+          }
+        } else {
+          return res
+            .status(400)
+            .json({ error: "The patients not have controls." });
+        }
+      } else {
+        return res.status(400).json({ error: "The patients not exits." });
       }
     })
     .catch((error) => {
