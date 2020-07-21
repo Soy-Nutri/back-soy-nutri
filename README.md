@@ -1,6 +1,6 @@
 # API REST Soy Nutri
 
-## Las rutas disponibles en la API, con sus respectivos campos, son las siguientes:
+## Las rutas disponibles en la API, con sus respectivos campos y restricciones, son las siguientes:
 
 ### 1. https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/signup
 #### Tipo de petición:
