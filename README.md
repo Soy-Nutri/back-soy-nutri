@@ -111,7 +111,7 @@ Se debe enviar un header con la siguiente información:
 - Mensaje
 - Token
 
-### 1. https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/push
+### 7. https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/push
 #### Tipo de petición:
 POST
 #### Restricciones: 
