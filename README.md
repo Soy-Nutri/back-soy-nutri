@@ -7,7 +7,7 @@
 POST
 #### Restricciones: 
 Solo puede existir un administrador, al ingresarlo se bloquea la creación de otro.
-#### Campos necesatrios:
+#### Campos necesarios:
 - rut 
 - password
 #### Formato de envio:
@@ -20,7 +20,7 @@ Solo puede existir un administrador, al ingresarlo se bloquea la creación de ot
 POST
 #### Restricciones: 
 NA.
-#### Campos necesatrios:
+#### Campos necesarios:
 - rut 
 - password
 #### Formato de envio:
@@ -36,7 +36,7 @@ POST
 Se debe enviar un header con la siguiente información:
 - key: Authorization
 - value: Bearer + Token inicio de sesión del administrador
-#### Campos necesatrios:
+#### Campos necesarios:
 - rut 
 - password
 - newPassword
@@ -53,7 +53,7 @@ POST
 Se debe enviar un header con la siguiente información:
 - key: Authorization
 - value: Bearer + Token inicio de sesión del administrador
-#### Campos necesatrios:
+#### Campos necesarios:
 - rut
 - names
 - father_last_name
@@ -74,7 +74,7 @@ Se debe enviar un header con la siguiente información:
 POST
 #### Restricciones: 
 NA.
-#### Campos necesatrios:
+#### Campos necesarios:
 - rut 
 - password
 #### Formato de envio:
@@ -101,7 +101,7 @@ POST
 Se debe enviar un header con la siguiente información:
 - key: Authorization
 - value: Bearer + Token inicio de sesión del paciente
-#### Campos necesatrios:
+#### Campos necesarios:
 - rut 
 - password
 - newPassword
@@ -118,7 +118,7 @@ POST
 Se debe enviar un header con la siguiente información:
 - key: Authorization
 - value: Bearer + Token inicio de sesión del administrador
-#### Campos necesatrios:
+#### Campos necesarios:
 - rut 
 - date
 - weight
@@ -153,7 +153,7 @@ GET
 Se debe enviar un header con la siguiente información:
 - key: Authorization
 - value: Bearer + Token inicio de sesión del administrador o Paciente
-#### Campos necesatrios:
+#### Campos necesarios:
 NA.
 #### Formato de envio:
 - JSON
@@ -171,7 +171,7 @@ GET
 Se debe enviar un header con la siguiente información:
 - key: Authorization
 - value: Bearer + Token inicio de sesión del administrador o Paciente
-#### Campos necesatrios:
+#### Campos necesarios:
 NA.
 #### Formato de envio:
 - JSON
@@ -183,3 +183,39 @@ NA.
 ### 11. Delete one control
 
 ### 12. Delete all control
+
+### 13. 
+
+### 14.
+
+### 15. 
+
+### 16.
+
+### 17.
+
+### 18.
+
+### 19. Add a daily diet.
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsDailyDiets/addDailyDiet
+- Tipo de petición: POST
+- Restricciones: 
+    - key: Authorization
+    - value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+    - rut
+    - date
+    - breakfast_time
+    - breakfast
+    - lunch_time
+    - lunch
+    - snack_time
+    - snack
+    - post_training
+    - dinner_time
+    - dinner
+    - calories
+    - proteins
+    - goals
+    - extra_info
+- Respuesta: estado (status code) y mensaje
