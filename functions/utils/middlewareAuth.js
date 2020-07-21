@@ -124,4 +124,12 @@ const AuthUser = (req, res, next) => {
     });
 };
 
-module.exports = { AuthAdmin, AuthUser };
+const decideMiddleware = (req, res, next) => {
+  if (req.params.user === "admin") {
+    return AuthAdmin(req, res, next);
+  } else if (req.params.user === "patient") {
+    return AuthUser(req, res, next);
+  }
+};
+
+module.exports = { AuthAdmin, AuthUser, decideMiddleware };
