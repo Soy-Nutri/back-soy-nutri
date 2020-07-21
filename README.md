@@ -2,18 +2,15 @@
 
 ## Las rutas disponibles en la API, con sus respectivos campos y restricciones, son las siguientes:
 
-### 1. https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/signup
-#### Tipo de petición:
-POST
-#### Restricciones: 
-Solo puede existir un administrador, al ingresarlo se bloquea la creación de otro.
-#### Campos necesarios:
-- rut 
-- password
-#### Formato de envio:
-- JSON
-#### Respuesta:
-- Token
+### 1. Add user admin.
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/signup
+- Tipo de petición: POST
+- Restricciones: 
+    - Solo puede existir un administrador, al ingresarlo se bloquea la creación de otro.
+- Campos necesarios:
+    - rut
+    - password
+- Respuesta: estado (status code) y Token
 
 ### 2. https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/login
 #### Tipo de petición:
