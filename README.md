@@ -111,7 +111,7 @@ Se debe enviar un header con la siguiente información:
 - Mensaje
 - Token
 
-### 7. https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/push
+### 7. https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/addControl
 #### Tipo de petición:
 POST
 #### Restricciones: 
@@ -142,3 +142,38 @@ Se debe enviar un header con la siguiente información:
 - JSON
 #### Respuesta:
 - Mensaje
+
+### 8. https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/getCarnet/:user/:rut
+#### Tipo de petición:
+GET
+#### Parámetros
+- user: admin o patient, dependiendo del token a ingresar
+- rut: rut del usuario a consultar
+#### Restricciones: 
+Se debe enviar un header con la siguiente información:
+- key: Authorization
+- value: Bearer + Token inicio de sesión del administrador o Paciente
+#### Campos necesatrios:
+NA.
+#### Formato de envio:
+- JSON
+#### Respuesta:
+- Carnet
+
+### 9. https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/getCarnet/:user/:rut/:date
+#### Tipo de petición:
+GET
+#### Parámetros
+- user: admin o patient, dependiendo del token a ingresar
+- rut: rut del usuario a consultar
+- date: fecha del control a consultar, formato YYYY-MM-DD
+#### Restricciones: 
+Se debe enviar un header con la siguiente información:
+- key: Authorization
+- value: Bearer + Token inicio de sesión del administrador o Paciente
+#### Campos necesatrios:
+NA.
+#### Formato de envio:
+- JSON
+#### Respuesta:
+- Control de la fecha seleccionada
