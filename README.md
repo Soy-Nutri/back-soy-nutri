@@ -184,6 +184,8 @@
 ### 19. Add a daily diet.
 - Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsDailyDiets/addDailyDiet
 - Tipo de petición: POST
+- Parámetros:
+    - NA.
 - Restricciones: 
     - key: Authorization
     - value: Bearer + Token inicio de sesión del administrador
