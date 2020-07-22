@@ -5,6 +5,8 @@
 ### 1. Add user admin.
 - Url: https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/signup
 - Tipo de petición: POST
+- Parámetros:
+    - NA.
 - Restricciones: 
     - Solo puede existir un administrador, al ingresarlo se bloquea la creación de otro.
 - Campos necesarios:
@@ -15,6 +17,8 @@
 ### 2. Login admin.
 - Url: https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/login
 - Tipo de petición: POST
+- Parámetros:
+    - NA.
 - Restricciones: 
     - NA.
 - Campos necesarios:
@@ -25,6 +29,8 @@
 ### 3. Change admin password
 - Url: https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/changePassword
 - Tipo de petición: POST
+- Parámetros:
+    - NA.
 - Restricciones:
     - Se debe enviar un header con la siguiente información:
         - key: Authorization
@@ -38,6 +44,8 @@
 ### 4. Create patient
 - Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsAuth/signup
 - Tipo de petición: POST
+- Parámetros:
+    - NA.
 - Restricciones:
     - Se debe enviar un header con la siguiente información:
         - key: Authorization
@@ -58,6 +66,8 @@
 ### 5. Login patient
 - Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsAuth/login
 - Tipo de petición: POST
+- Parámetros:
+    - NA.
 - Restricciones:
     - NA.
 - Campos necesarios:
@@ -81,6 +91,8 @@
 ### 6. Change patient password
 - Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsAuth/changePassword
 - Tipo de petición: POST
+- Parámetros:
+    - NA.
 - Restricciones:
     - Se debe enviar un header con la siguiente información:
         - key: Authorization
@@ -94,6 +106,8 @@
 ### 7. Add control to patient
 - Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/addControl
 - Tipo de petición: POST
+- Parámetros:
+    - NA.
 - Restricciones:
     - Se debe enviar un header con la siguiente información:
         - key: Authorization
