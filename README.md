@@ -164,6 +164,35 @@
 - Respuesta: estado (status code) y Control de la fecha seleccionada
 
 ### 10. Modify Control
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/modifyControl
+- Tipo de petición: PUT
+- Parámetros:
+    - NA.
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+    - rut 
+    - date
+    - weight
+    - size
+    - cbr
+    - cbc
+    - cc_min
+    - cc_max
+    - cad_max
+    - triceps_fold
+    - subscapular_fold
+    - abdominal_fold
+    - imc
+    - dni
+    - biological_age
+    - visceral_fat
+    - fat
+    - mass
+    - muscle_mass
+- Respuesta: estado (status code) y mensaje
 
 ### 11. Delete one control
 
