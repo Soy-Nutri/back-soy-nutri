@@ -169,17 +169,17 @@
 
 ### 12. Delete all control
 
-### 13. 
+### 13. Add biochemical analysis
 
-### 14.
+### 14. Get biochemical analysis
 
-### 15. 
+### 15. Get biochemical analysis with date
 
-### 16.
+### 16. Modify biochemical analysis
 
-### 17.
+### 17. Delete one biochemical analysis
 
-### 18.
+### 18. Delete all biochemical analysis
 
 ### 19. Add a daily diet.
 - Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsDailyDiets/addDailyDiet
