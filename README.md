@@ -12,168 +12,142 @@
     - password
 - Respuesta: estado (status code) y Token
 
-### 2. https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/login
-#### Tipo de petición:
-POST
-#### Restricciones: 
-NA.
-#### Campos necesarios:
-- rut 
-- password
-#### Formato de envio:
-- JSON
-#### Respuesta:
-- Token
-- rut
+### 2. Login admin.
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/login
+- Tipo de petición: POST
+- Restricciones: 
+    - NA.
+- Campos necesarios:
+    - rut
+    - password
+- Respuesta: estado (status code), Token y rut
 
-### 3. https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/changePassword
-#### Tipo de petición:
-POST
-#### Restricciones: 
-Se debe enviar un header con la siguiente información:
-- key: Authorization
-- value: Bearer + Token inicio de sesión del administrador
-#### Campos necesarios:
-- rut 
-- password
-- newPassword
-#### Formato de envio:
-- JSON
-#### Respuesta:
-- Mensaje
-- Token
+### 3. Change admin password
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/changePassword
+- Tipo de petición: POST
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+    - rut 
+    - password
+    - newPassword
+- Respuesta: estado (status code), Token y mensaje
 
-### 4. https://us-central1-back-f0378.cloudfunctions.net/api/patientsAuth/signup
-#### Tipo de petición:
-POST
-#### Restricciones: 
-Se debe enviar un header con la siguiente información:
-- key: Authorization
-- value: Bearer + Token inicio de sesión del administrador
-#### Campos necesarios:
-- rut
-- names
-- father_last_name
-- mother_last_name
-- city
-- email
-- phone
-- birth_date
-- sex
-- alimentation
-#### Formato de envio:
-- JSON
-#### Respuesta:
-- Token
+### 4. Create patient
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsAuth/signup
+- Tipo de petición: POST
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+    - rut
+    - names
+    - father_last_name
+    - mother_last_name
+    - city
+    - email
+    - phone
+    - birth_date
+    - sex
+    - alimentation
+- Respuesta: estado (status code) y Token
 
-### 5. https://us-central1-back-f0378.cloudfunctions.net/api/patientsAuth/login
-#### Tipo de petición:
-POST
-#### Restricciones: 
-NA.
-#### Campos necesarios:
-- rut 
-- password
-#### Formato de envio:
-- JSON
-#### Respuesta:
-- Token
-- rut
-- names
-- father_last_name
-- mother_last_name
-- city
-- email
-- phone
-- birth_date
-- sex
-- alimentation
-- in_date
-- state
+### 5. Login patient
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsAuth/login
+- Tipo de petición: POST
+- Restricciones:
+    - NA.
+- Campos necesarios:
+    - rut 
+    - password
+- Respuesta:
+    - Token
+    - rut
+    - names
+    - father_last_name
+    - mother_last_name
+    - city
+    - email
+    - phone
+    - birth_date
+    - sex
+    - alimentation
+    - in_date
+    - state
 
-### 6. https://us-central1-back-f0378.cloudfunctions.net/api/patientsAuth/changePassword
-#### Tipo de petición:
-POST
-#### Restricciones: 
-Se debe enviar un header con la siguiente información:
-- key: Authorization
-- value: Bearer + Token inicio de sesión del paciente
-#### Campos necesarios:
-- rut 
-- password
-- newPassword
-#### Formato de envio:
-- JSON
-#### Respuesta:
-- Mensaje
-- Token
+### 6. Change patient password
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsAuth/changePassword
+- Tipo de petición: POST
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del paciente
+- Campos necesarios:
+    - rut 
+    - password
+    - newPassword
+- Respuesta: estado (status code), Token y mensaje
 
-### 7. https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/addControl
-#### Tipo de petición:
-POST
-#### Restricciones: 
-Se debe enviar un header con la siguiente información:
-- key: Authorization
-- value: Bearer + Token inicio de sesión del administrador
-#### Campos necesarios:
-- rut 
-- date
-- weight
-- size
-- cbr
-- cbc
-- cc_min
-- cc_max
-- cad_max
-- triceps_fold
-- subscapular_fold
-- abdominal_fold
-- imc
-- dni
-- biological_age
-- visceral_fat
-- fat
-- mass
-- muscle_mass
-#### Formato de envio:
-- JSON
-#### Respuesta:
-- Mensaje
+### 7. Add control to patient
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/addControl
+- Tipo de petición: POST
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+    - rut 
+    - date
+    - weight
+    - size
+    - cbr
+    - cbc
+    - cc_min
+    - cc_max
+    - cad_max
+    - triceps_fold
+    - subscapular_fold
+    - abdominal_fold
+    - imc
+    - dni
+    - biological_age
+    - visceral_fat
+    - fat
+    - mass
+    - muscle_mass
+- Respuesta: estado (status code) y mensaje
 
-### 8. https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/getCarnet/:user/:rut
-#### Tipo de petición:
-GET
-#### Parámetros
-- user: admin o patient, dependiendo del token a ingresar
-- rut: rut del usuario a consultar
-#### Restricciones: 
-Se debe enviar un header con la siguiente información:
-- key: Authorization
-- value: Bearer + Token inicio de sesión del administrador o Paciente
-#### Campos necesarios:
-NA.
-#### Formato de envio:
-- JSON
-#### Respuesta:
-- Carnet
+### 8. Get Carnet
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/getCarnet/:user/:rut
+- Tipo de petición: GET
+- Parámetros:
+    - user: selección de middleware a utilizar según el tipo de token, admin o patient
+    - rut: rut del paciente a obtener el carnet
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador o Paciente
+- Campos necesarios:
+    - NA.
+- Respuesta: estado (status code) y carnet
 
-### 9. https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/getCarnet/:user/:rut/:date
-#### Tipo de petición:
-GET
-#### Parámetros
-- user: admin o patient, dependiendo del token a ingresar
-- rut: rut del usuario a consultar
-- date: fecha del control a consultar, formato YYYY-MM-DD
-#### Restricciones: 
-Se debe enviar un header con la siguiente información:
-- key: Authorization
-- value: Bearer + Token inicio de sesión del administrador o Paciente
-#### Campos necesarios:
-NA.
-#### Formato de envio:
-- JSON
-#### Respuesta:
-- Control de la fecha seleccionada
+### 9. Get Control with date
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/getCarnet/:user/:rut/:date
+- Tipo de petición: GET
+- Parámetros:
+    - user: selección de middleware a utilizar según el tipo de token, admin o patient
+    - rut: rut del paciente a obtener el carnet
+    - date: fecha del control a solicitar
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador o Paciente
+- Campos necesarios:
+    - NA.
+- Respuesta: estado (status code) y Control de la fecha seleccionada
 
 ### 10. Modify Control
 
