@@ -9,7 +9,10 @@ const {
   decideMiddleware,
 } = require("../utils/middlewareAuth");
 
+//Controls
+
 app.post("/addControl", AuthAdmin, (req, res) => {
+  //The date must input in this format YYYY/MM/DD
   const rut = req.body.rut.toString();
   const control = {
     date: req.body.date.toString(),
@@ -65,6 +68,7 @@ app.post("/addControl", AuthAdmin, (req, res) => {
     .then((doc) => {
       if (doc.exists) {
         if (doc.data().controls) {
+          //Verifying that there are no controls with the same date entered
           let dates = [];
           for (let i = 0; i < doc.data().controls.length; i++) {
             dates.push(doc.data().controls[i].date);
@@ -82,6 +86,7 @@ app.post("/addControl", AuthAdmin, (req, res) => {
               .json({ error: "Check date is already entered." });
           }
         } else {
+          //If not exists controls it's created array of controls
           db.collection("patients")
             .doc(rut)
             .update({ controls: [control] });
@@ -97,12 +102,14 @@ app.post("/addControl", AuthAdmin, (req, res) => {
 });
 
 app.get("/getCarnet/:user/:rut", decideMiddleware, (req, res) => {
+  //The date must input in this format YYYY-MM-DD
   const rut = req.params.rut;
   db.doc(`/patients/${rut}`)
     .get()
     .then((doc) => {
       if (doc.exists) {
         if (doc.data().controls) {
+          //If controls exist, they are shipped
           if (doc.data().controls.length > 0) {
             return res.status(200).json({ carnet: doc.data().controls });
           } else {
@@ -125,6 +132,7 @@ app.get("/getCarnet/:user/:rut", decideMiddleware, (req, res) => {
 });
 
 app.get("/getCarnet/:user/:rut/:date", decideMiddleware, (req, res) => {
+  //The date must input in this format YYYY-MM-DD
   const rut = req.params.rut;
   const date = new Date(req.params.date).toISOString();
   db.doc(`/patients/${rut}`)
@@ -132,6 +140,7 @@ app.get("/getCarnet/:user/:rut/:date", decideMiddleware, (req, res) => {
     .then((doc) => {
       if (doc.exists) {
         if (doc.data().controls) {
+          //Controls are filtered by rut and date, if one exists it is sent
           if (doc.data().controls.length > 0) {
             for (let i = 0; i < doc.data().controls.length; i++) {
               if (doc.data().controls[i].date === date) {
@@ -163,6 +172,7 @@ app.get("/getCarnet/:user/:rut/:date", decideMiddleware, (req, res) => {
 });
 
 app.put("/modifyControl", AuthAdmin, (req, res) => {
+  //The date must input in this format YYYY/MM/DD
   const rut = req.body.rut.toString();
   const control = {
     date: req.body.date.toString(),
@@ -223,6 +233,7 @@ app.put("/modifyControl", AuthAdmin, (req, res) => {
     .then((doc) => {
       if (doc.exists) {
         if (doc.data().controls) {
+          //Controls infomation is supported and the one that coincides with the date entered is modified
           let controlToUpdate = doc.data().controls;
           for (let i = 0; i < controlToUpdate.length; i++) {
             if (doc.data().controls[i].date === controlUpdate.date) {
@@ -247,6 +258,7 @@ app.put("/modifyControl", AuthAdmin, (req, res) => {
 });
 
 app.delete("/deleteControl", AuthAdmin, (req, res) => {
+  //The date must input in this format YYYY/MM/DD
   const rut = req.body.rut;
   const date = new Date(req.body.date).toISOString();
   db.doc(`/patients/${rut}`)
@@ -254,6 +266,7 @@ app.delete("/deleteControl", AuthAdmin, (req, res) => {
     .then((doc) => {
       if (doc.exists) {
         if (doc.data().controls) {
+          //Controls are added if their date does not match the one entered
           if (doc.data().controls.length > 0) {
             let controls = [];
             for (let i = 0; i < doc.data().controls.length; i++) {
@@ -297,6 +310,7 @@ app.delete("/deleteCarnet", AuthAdmin, (req, res) => {
     .then((doc) => {
       if (doc.exists) {
         if (doc.data().controls) {
+          //Replace controls with empty array
           if (doc.data().controls.length > 0) {
             db.collection("patients").doc(rut).update({ controls: [] });
             return res.status(200).json({
@@ -311,6 +325,271 @@ app.delete("/deleteCarnet", AuthAdmin, (req, res) => {
           return res
             .status(400)
             .json({ error: "The patients not have carnet." });
+        }
+      } else {
+        return res.status(400).json({ error: "The patients not exits." });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({ error });
+    });
+});
+
+//Biochemicals
+app.post("/addBiochemical", AuthAdmin, (req, res) => {
+  //The date must input in this format YYYY/MM/DD
+  const rut = req.body.rut.toString();
+  const biochemical = {
+    date: req.body.date.toString(),
+    b12: req.body.b12.toString(),
+    d: req.body.d.toString(),
+  };
+
+  let errors = {};
+  if (isEmpty(rut)) errors.rut = "Must no be empty";
+  if (isEmpty(biochemical.date)) errors.date = "Must no be empty";
+  else biochemical.date = new Date(biochemical.date).toISOString();
+
+  if (isEmpty(biochemical.b12)) errors.b12 = "Must no be empty";
+  if (isEmpty(biochemical.d)) errors.d = "Must no be empty";
+
+  if (Object.keys(errors).length > 0) return res.status(400).json(errors);
+
+  db.doc(`/patients/${rut}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        if (doc.data().biochemicals) {
+          //Verifying that there are no biochemicals with the same date entered
+          let dates = [];
+          for (let i = 0; i < doc.data().biochemicals.length; i++) {
+            dates.push(doc.data().biochemicals[i].date);
+          }
+          if (dates.indexOf(biochemical.date) === -1) {
+            let newBiochemicals = doc.data().biochemicals;
+            newBiochemicals.push(biochemical);
+            db.collection("patients")
+              .doc(rut)
+              .update({ biochemicals: newBiochemicals });
+            return res
+              .status(200)
+              .json({ message: "Push biochemical analysis." });
+          } else {
+            return res
+              .status(400)
+              .json({ error: "Check date is already entered." });
+          }
+        } else {
+          //If not exists controls it's created array of biochemical analysis
+          db.collection("patients")
+            .doc(rut)
+            .update({ biochemicals: [biochemical] });
+          return res
+            .status(200)
+            .json({ message: "Append biochemical analysis." });
+        }
+      } else {
+        return res.status(400).json({ error: "User not found." });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({ error });
+    });
+});
+
+app.get("/getBiochemical/:user/:rut", decideMiddleware, (req, res) => {
+  const rut = req.params.rut;
+  db.doc(`/patients/${rut}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        if (doc.data().biochemicals) {
+          //If biochemical analysis exist, they are shipped
+          if (doc.data().biochemicals.length > 0) {
+            return res
+              .status(200)
+              .json({ biochemicals: doc.data().biochemicals });
+          } else {
+            return res
+              .status(400)
+              .json({ error: "The patients not have biochemical analysis." });
+          }
+        } else {
+          return res
+            .status(400)
+            .json({ error: "The patients not have biochemical analysis." });
+        }
+      } else {
+        return res.status(400).json({ error: "The patients not exits." });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({ error });
+    });
+});
+
+app.get("/getBiochemical/:user/:rut/:date", decideMiddleware, (req, res) => {
+  //The date must input in this format YYYY-MM-DD
+  const rut = req.params.rut;
+  const date = new Date(req.params.date).toISOString();
+  db.doc(`/patients/${rut}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        if (doc.data().biochemicals) {
+          //Biochemical analysis are filtered by rut and date, if one exists it is sent
+          if (doc.data().biochemicals.length > 0) {
+            for (let i = 0; i < doc.data().biochemicals.length; i++) {
+              if (doc.data().biochemicals[i].date === date) {
+                return res
+                  .status(200)
+                  .json({ biochemical: doc.data().biochemicals[i] });
+              }
+            }
+            return res.status(400).json({
+              error:
+                "The patients not have biochemical analysis with this date.",
+            });
+          } else {
+            return res
+              .status(400)
+              .json({ error: "The patients not have biochemical analysis." });
+          }
+        } else {
+          return res
+            .status(400)
+            .json({ error: "The patients not have biochemical analysis." });
+        }
+      } else {
+        return res.status(400).json({ error: "The patients not exits." });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({ error });
+    });
+});
+
+app.put("/modifyBiochemical", AuthAdmin, (req, res) => {
+  //The date must input in this format YYYY/MM/DD
+  const rut = req.body.rut.toString();
+  const info = {
+    date: req.body.date.toString(),
+    b12: req.body.b12.toString(),
+    d: req.body.d.toString(),
+  };
+
+  let biochemicalUpdate = {};
+
+  let errors = {};
+  if (isEmpty(rut)) errors.rut = "Must no be empty";
+  if (isEmpty(info.date)) errors.date = "Must no be empty";
+  else biochemicalUpdate.date = new Date(info.date).toISOString();
+
+  if (Object.keys(errors).length > 0) return res.status(400).json(errors);
+
+  if (!isEmpty(info.b12)) biochemicalUpdate.b12 = info.b12;
+  if (!isEmpty(info.d)) biochemicalUpdate.d = info.d;
+
+  db.doc(`/patients/${rut}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        if (doc.data().biochemicals) {
+          //Biochemical analysis infomation is supported and the one that coincides with the date entered is modified
+          let biochemicalToUpdate = doc.data().biochemicals;
+          for (let i = 0; i < biochemicalToUpdate.length; i++) {
+            if (doc.data().biochemicals[i].date === biochemicalUpdate.date) {
+              biochemicalToUpdate[i] = biochemicalUpdate;
+              db.collection("patients")
+                .doc(rut)
+                .update({ biochemicals: biochemicalToUpdate });
+              return res.status(200).json({ message: "Change data." });
+            }
+          }
+          return res.status(400).json({ error: "Date not found." });
+        } else {
+          return res
+            .status(400)
+            .json({ error: "Biochemical analysis not found." });
+        }
+      } else {
+        return res.status(400).json({ error: "User not found." });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({ error });
+    });
+});
+
+app.delete("/deleteBiochemical", AuthAdmin, (req, res) => {
+  //The date must input in this format YYYY/MM/DD
+  const rut = req.body.rut;
+  const date = new Date(req.body.date).toISOString();
+  db.doc(`/patients/${rut}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        if (doc.data().biochemicals) {
+          //Biochemicals analysis are added if their date does not match the one entered
+          if (doc.data().biochemicals.length > 0) {
+            let biochemicals = [];
+            for (let i = 0; i < doc.data().biochemicals.length; i++) {
+              if (doc.data().biochemicals[i].date !== date) {
+                biochemicals.push(doc.data().biochemicals[i]);
+              }
+            }
+            if (doc.data().biochemicals.length !== biochemicals.length) {
+              db.collection("patients").doc(rut).update({ biochemicals });
+              return res.status(200).json({
+                messaje: "The biochemicals analysis was delete.",
+              });
+            } else {
+              return res.status(400).json({
+                error:
+                  "The patients not have biochemicals analysis with this date.",
+              });
+            }
+          } else {
+            return res
+              .status(400)
+              .json({ error: "The patients not have biochemicals analysis." });
+          }
+        } else {
+          return res
+            .status(400)
+            .json({ error: "The patients not have biochemicals analysis." });
+        }
+      } else {
+        return res.status(400).json({ error: "The patients not exits." });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({ error });
+    });
+});
+
+app.delete("/deleteAllBiochemical", AuthAdmin, (req, res) => {
+  const rut = req.body.rut;
+  db.doc(`/patients/${rut}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        if (doc.data().biochemicals) {
+          //Replace biochemicals analysis with empty array
+          if (doc.data().biochemicals.length > 0) {
+            db.collection("patients").doc(rut).update({ biochemicals: [] });
+            return res.status(200).json({
+              messaje: "The biochemicals analysis was delete.",
+            });
+          } else {
+            return res
+              .status(200)
+              .json({ error: "The patients not have biochemicals analysis." });
+          }
+        } else {
+          return res
+            .status(400)
+            .json({ error: "The patients not have biochemicals analysis." });
         }
       } else {
         return res.status(400).json({ error: "The patients not exits." });
