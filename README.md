@@ -222,16 +222,92 @@
 - Respuesta: estado (status code) y mensaje
 
 ### 13. Add biochemical analysis
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/addBiochemical
+- Tipo de petición: POST
+- Parámetros:
+    - NA.
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+    - rut 
+    - date
+    - b12
+    - d
+- Respuesta: estado (status code) y mensaje
 
 ### 14. Get biochemical analysis
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/getBiochemical/:user/:rut
+- Tipo de petición: GET
+- Parámetros:
+    - user: selección de middleware a utilizar según el tipo de token, admin o patient
+    - rut: rut del paciente a obtener el análisis bioquímico
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador o Paciente
+- Campos necesarios:
+    - NA.
+- Respuesta: estado (status code) y carnet
 
 ### 15. Get biochemical analysis with date
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/getBiochemical/:user/:rut/:date
+- Tipo de petición: GET
+- Parámetros:
+    - user: selección de middleware a utilizar según el tipo de token, admin o patient
+    - rut: rut del paciente a obtener el análisis bioquímico
+    - date: fecha del análisis bioquímico a solicitar
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador o Paciente
+- Campos necesarios:
+    - NA.
+- Respuesta: estado (status code) y Control de la fecha seleccionada
 
 ### 16. Modify biochemical analysis
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/modifyBiochemical
+- Tipo de petición: PUT
+- Parámetros:
+    - NA.
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+    - rut 
+    - date
+    - b12
+    - d
+- Respuesta: estado (status code) y mensaje
 
 ### 17. Delete one biochemical analysis
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/deleteBiochemical
+- Tipo de petición: DELETE
+- Parámetros:
+    - NA.
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+    - rut 
+    - date
+- Respuesta: estado (status code) y mensaje
 
 ### 18. Delete all biochemical analysis
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/deleteAllBiochemical
+- Tipo de petición: DELETE
+- Parámetros:
+    - NA.
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+    - rut 
+- Respuesta: estado (status code) y mensaje
 
 ### 19. Add a daily diet.
 - Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsDailyDiets/addDailyDiet
