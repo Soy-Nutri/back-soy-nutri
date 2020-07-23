@@ -246,48 +246,79 @@ app.put("/modifyControl", AuthAdmin, (req, res) => {
     });
 });
 
-// app.delete("/deleteControl", AuthAdmin, (req, res) => {
-//   const rut = req.params.rut;
-//   const date = new Date(req.params.date).toISOString();
-//   db.doc(`/patients/${rut}`)
-//     .get()
-//     .then((doc) => {
-//       if (doc.exists) {
-//         if (doc.data().controls) {
-//           if (doc.data().controls.length > 0) {
-//             let controls = [];
-//             for (let i = 0; i < doc.data().controls.length; i++) {
-//               if (doc.data().controls[i].date !== date) {
-//                 controls.push(doc.data().controls[i]);
-//               }
-//             }
-//             if (doc.data().controls.length !== controls.length) {
-//               db.collection("patients").doc(rut).update({ controls });
-//               return res.status(200).json({
-//                 messaje: "The controls was delete.",
-//               });
-//             } else {
-//               return res.status(400).json({
-//                 error: "The patients not have controls with this date.",
-//               });
-//             }
-//           } else {
-//             return res
-//               .status(400)
-//               .json({ error: "The patients not have controls." });
-//           }
-//         } else {
-//           return res
-//             .status(400)
-//             .json({ error: "The patients not have controls." });
-//         }
-//       } else {
-//         return res.status(400).json({ error: "The patients not exits." });
-//       }
-//     })
-//     .catch((error) => {
-//       return res.status(500).json({ error });
-//     });
-// });
+app.delete("/deleteControl", AuthAdmin, (req, res) => {
+  const rut = req.body.rut;
+  const date = new Date(req.body.date).toISOString();
+  db.doc(`/patients/${rut}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        if (doc.data().controls) {
+          if (doc.data().controls.length > 0) {
+            let controls = [];
+            for (let i = 0; i < doc.data().controls.length; i++) {
+              if (doc.data().controls[i].date !== date) {
+                controls.push(doc.data().controls[i]);
+              }
+            }
+            if (doc.data().controls.length !== controls.length) {
+              db.collection("patients").doc(rut).update({ controls });
+              return res.status(200).json({
+                messaje: "The controls was delete.",
+              });
+            } else {
+              return res.status(400).json({
+                error: "The patients not have controls with this date.",
+              });
+            }
+          } else {
+            return res
+              .status(400)
+              .json({ error: "The patients not have controls." });
+          }
+        } else {
+          return res
+            .status(400)
+            .json({ error: "The patients not have controls." });
+        }
+      } else {
+        return res.status(400).json({ error: "The patients not exits." });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({ error });
+    });
+});
+
+app.delete("/deleteCarnet", AuthAdmin, (req, res) => {
+  const rut = req.body.rut;
+  db.doc(`/patients/${rut}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        if (doc.data().controls) {
+          if (doc.data().controls.length > 0) {
+            db.collection("patients").doc(rut).update({ controls: [] });
+            return res.status(200).json({
+              messaje: "The carnet was delete.",
+            });
+          } else {
+            return res
+              .status(200)
+              .json({ error: "The patients not have controls." });
+          }
+        } else {
+          return res
+            .status(400)
+            .json({ error: "The patients not have carnet." });
+        }
+      } else {
+        return res.status(400).json({ error: "The patients not exits." });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({ error });
+    });
+});
 
 module.exports = app;
