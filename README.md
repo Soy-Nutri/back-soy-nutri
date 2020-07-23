@@ -195,8 +195,31 @@
 - Respuesta: estado (status code) y mensaje
 
 ### 11. Delete one control
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/deleteControl
+- Tipo de petición: DELETE
+- Parámetros:
+    - NA.
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+    - rut 
+    - date
+- Respuesta: estado (status code) y mensaje
 
 ### 12. Delete all control
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsCarnet/deleteCarnet
+- Tipo de petición: DELETE
+- Parámetros:
+    - NA.
+- Restricciones:
+    - Se debe enviar un header con la siguiente información:
+        - key: Authorization
+        - value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+    - rut 
+- Respuesta: estado (status code) y mensaje
 
 ### 13. Add biochemical analysis
 
