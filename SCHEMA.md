@@ -1,5 +1,3 @@
-#Body Insole
-
 ## Aquí se incorporaran plantillas para el ingreso de datos
 
 ### 1. Add user admin.
