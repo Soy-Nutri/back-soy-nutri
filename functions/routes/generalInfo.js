@@ -3,6 +3,7 @@ const app = express.Router();
 
 const { db, firebase, admin, firebaseConfig } = require("../utils/init");
 const { AuthAdmin } = require("../utils/middlewareAuth");
+const { isEmpty } = require("../utils/functions");
 
 app.post("/addInfo", (req, res) => {
   const info = {
