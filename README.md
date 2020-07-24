@@ -32,7 +32,7 @@
         <dt><li>Parámetros</li></dt>
             <dd><li>NA.</li></dd>
         <dt><li>Restricciones</li></dt>
-            <dd><li>Solo puede existir un administrador, al ingresarlo se bloquea la creación de otro.</li></dd>
+            <dd><li>NA.</li></dd>
         <dt><li>Campos necesarios</li></dt>
             <dd>
                 <li>rut</li>
@@ -51,30 +51,20 @@
         <dt><li>Tipo de petición: POST</li></dt>
         <dt><li>Parámetros</li></dt>
             <dd><li>NA.</li></dd>
-        <dt><li>Restricciones</li></dt>
-        <dd><li>Solo puede existir un administrador, al ingresarlo se bloquea la creación de otro.</li></dd>
+        <dt><li>Restricciones (Se debe enviar un header con la siguiente información)</li></dt>
+            <dd>
+                <li>key: Authorization</li>
+                <li>value: Bearer + Token inicio de sesión del administrador</li>
+            </dd>
         <dt><li>Campos necesarios</li></dt>
         <dd>
             <li>rut</li>
             <li>password</li>
+            <li>newPassword</li>
         </dd>
-        <dt><li>Respuesta: estado (status code), Token y rut</li></dt>
+        <dt><li>Respuesta: estado (status code), Token y mensaje</li></dt>
     </dl>
 </details>
-
-- Url: https://us-central1-back-f0378.cloudfunctions.net/api/adminAuth/changePassword
-- Tipo de petición: POST
-- Parámetros:
-  - NA.
-- Restricciones:
-  - Se debe enviar un header con la siguiente información:
-    - key: Authorization
-    - value: Bearer + Token inicio de sesión del administrador
-- Campos necesarios:
-  - rut
-  - password
-  - newPassword
-- Respuesta: estado (status code), Token y mensaje
 
 ### 4. Create patient
 
