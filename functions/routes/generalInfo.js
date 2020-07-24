@@ -4,7 +4,7 @@ const app = express.Router();
 const { db, firebase, admin, firebaseConfig } = require("../utils/init");
 const { AuthAdmin } = require("../utils/middlewareAuth");
 
-app.post("/uploadPdf/:nameFolder/:name/", AuthAdmin, (req, res) => {
+app.post("/uploadPdf/:nameFolder/:name", AuthAdmin, (req, res) => {
   const BusBoy = require("busboy");
   const path = require("path");
   const os = require("os");
