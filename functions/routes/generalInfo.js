@@ -2,9 +2,9 @@ const express = require("express");
 const app = express.Router();
 
 const { db, firebase, admin, firebaseConfig } = require("../utils/init");
-const { AuthAdmin, AuthUser } = require("../utils/middlewareAuth");
+const { AuthAdmin } = require("../utils/middlewareAuth");
 
-app.post("/uploadPdf/:name/", (req, res) => {
+app.post("/uploadPdf/:nameFolder/:name/", AuthAdmin, (req, res) => {
   const BusBoy = require("busboy");
   const path = require("path");
   const os = require("os");
@@ -32,7 +32,7 @@ app.post("/uploadPdf/:name/", (req, res) => {
       .bucket()
       .upload(fileToBeUploaded.filepath, {
         resumable: false,
-        destination: `Documents/${fileName}`,
+        destination: `${req.params.nameFolder}/${fileName}`,
         metadata: {
           metadata: {
             contentType: fileToBeUploaded.mimetype,
@@ -40,7 +40,7 @@ app.post("/uploadPdf/:name/", (req, res) => {
         },
       })
       .then(() => {
-        const url = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/Documents%2F${fileName}?alt=media`;
+        const url = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${req.params.nameFolder}%2F${fileName}?alt=media`;
         return res.status(200).json({ message: url });
       })
       .catch((err) => {
