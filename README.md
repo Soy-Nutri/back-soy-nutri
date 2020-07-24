@@ -32,7 +32,7 @@
         <dt><li>Parámetros</li></dt>
             <dd><li>NA.</li></dd>
         <dt><li>Restricciones</li></dt>
-            <dd><li>Solo puede existir un administrador, al ingresarlo se bloquea la creación de otro.</li></dd>
+            <dd><li>NA.</li></dd>
         <dt><li>Campos necesarios</li></dt>
             <dd>
                 <li>rut</li>
