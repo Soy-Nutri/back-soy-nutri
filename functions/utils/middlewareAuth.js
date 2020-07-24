@@ -129,6 +129,8 @@ const decideMiddleware = (req, res, next) => {
     return AuthAdmin(req, res, next);
   } else if (req.params.user === "patient") {
     return AuthUser(req, res, next);
+  } else {
+    return res.status(400).json({ error: "User must be admin or patient." });
   }
 };
 
