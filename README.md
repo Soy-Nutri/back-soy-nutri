@@ -375,3 +375,27 @@
   - goals
   - extra_info
 - Respuesta: estado (status code) y mensaje
+
+
+
+
+### 2X. Add a weekly diet.
+
+- Url: 
+- Tipo de petición: POST
+- Parámetros:
+  - NA.
+- Restricciones:
+  - key: Authorization
+  - value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+  - rut
+  - date
+  - day
+  - breakfast
+  - lunch
+  - snack
+  - post_training (not mandatory)
+  - dinner
+
+- Respuesta: estado (status code) y mensaje
