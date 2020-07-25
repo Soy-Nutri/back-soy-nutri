@@ -163,9 +163,8 @@ app.get("/getDailyDiet/:user/:rut/:date", decideMiddleware, (req, res) => {
 app.put("/modifyDailyDiet", AuthAdmin, (req, res) => {
   // date format YYYY-MM-DD
   const rut = req.body.rut;
-  // ternario
   const daily_diet = {
-    date: req.body.date,
+    date: new Date(req.body.date).toISOString(),
     breakfast: {
       time: req.body.breakfast_time,
       meal: req.body.breakfast,
@@ -198,7 +197,9 @@ app.put("/modifyDailyDiet", AuthAdmin, (req, res) => {
           // if the patient has daily diets
           let toUpdate = doc.data().daily_diets;
           for (let i = 0; i < toUpdate.length; i++) {
-            if (doc.data().daily_diets[i] === daily_diet.date) {
+            console.log(daily_diet.date);
+            console.log(doc.data().daily_diets[i].date);
+            if (doc.data().daily_diets[i].date === daily_diet.date) {
               toUpdate[i] = daily_diet;
               db.collection("patients")
                 .doc(rut)
@@ -227,7 +228,6 @@ app.put("/modifyDailyDiet", AuthAdmin, (req, res) => {
 // delete all daily diets from a patient, admin access required
 app.delete("/deleteAllDailyDiets", AuthAdmin, (req, res) => {
   const rut = req.body.rut;
-  console.log("hola");
   db.doc(`/patients/${rut}`)
     .get()
     .then((doc) => {
@@ -266,11 +266,12 @@ app.delete("/deleteDailyDiet", AuthAdmin, (req, res) => {
           // if the patient has daily diets
           let daily_diets = [];
           for (let i = 0; i < doc.data().daily_diets.length; i++) {
-            if (doc.data().controls[i].date !== date) {
+            if (doc.data().daily_diets[i].date !== date) {
               // if the daily diet is not the one you want to delete
               daily_diets.push(doc.data().daily_diets[i]);
             }
           }
+
           if (doc.data().daily_diets.length !== daily_diets.length) {
             // if the old array of daily diets is not the same, replace
             db.collection("patients").doc(rut).update({ daily_diets });
