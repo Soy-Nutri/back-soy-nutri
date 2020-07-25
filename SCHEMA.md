@@ -143,3 +143,60 @@ NA.
 }
 
 ### 19. Add a daily diet.
+
+{
+    "rut": "1111111111",
+    "date": "2020/07/15",
+    "breakfast_time": "9:00",
+    "breakfast": "papas",
+    "lunch_time": "13:00",
+    "lunch": "tallarines",
+    "snack_time": "15:00",
+    "snack": "yogurt",
+    "post_training": "batidooo",
+    "dinner_time": "19:00",
+    "dinner": "arroz",
+    "calories": "60",
+    "proteins": "40",
+    "goals": "tomar agua",
+    "extra_info":"saludos!"
+}
+
+### 20. Get all daily diets
+N.A.
+
+### 21. Get a single daily diet
+N.A.
+
+### 22. Modify a daily diet
+
+{
+    "rut": "1111111111",
+    "date": "2020/07/15",
+    "breakfast_time": "9:00",
+    "breakfast": "completos",
+    "lunch_time": "13:00",
+    "lunch": "tallarines",
+    "snack_time": "15:00",
+    "snack": "yogurt",
+    "post_training": "batidooo",
+    "dinner_time": "19:00",
+    "dinner": "arroz",
+    "calories": "60",
+    "proteins": "40",
+    "goals": "tomar agua",
+    "extra_info":"saludos!"
+}
+
+### 23. Delete all daily diets. 
+
+{
+    "rut": "1111111111"
+}
+
+### 24. Delete a single daily diet
+
+{
+    "rut": "1111111111",
+    "date": "2020/07/22"
+}
