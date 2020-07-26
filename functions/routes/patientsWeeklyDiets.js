@@ -16,6 +16,7 @@ function removeItemFromArr( arr, item ) {
 las semanas comienzan los lunes.
 se agregan en español. 
 */
+
 app.post("/addWeeklyDiet", AuthAdmin,(req, res) => {
     const rut = req.body.rut;
     var date = req.body.date;
