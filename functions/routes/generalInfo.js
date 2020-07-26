@@ -43,6 +43,49 @@ app.post("/addInfo", (req, res) => {
     });
 });
 
+app.get("/getInfo", (req, res) => {
+  db.collection("info")
+    .doc("nutriInfo")
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        return res.status(200).json(doc.data());
+      } else {
+        return res.status(400).json({
+          error: "The information does not exist!",
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        error: err,
+      });
+    });
+});
+
+app.delete("/deleteInfo", (req, res) => {
+  db.collection("info")
+    .doc("nutriInfo")
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        db.collection("info").doc("nutriInfo").delete();
+        return res.status(200).json({
+          message: "Deleted information!",
+        });
+      } else {
+        return res.status(400).json({
+          error: "There is no information!",
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        error: err,
+      });
+    });
+});
+
 app.post("/uploadPdf/:nameFolder/:name", AuthAdmin, (req, res) => {
   const BusBoy = require("busboy");
   const path = require("path");
