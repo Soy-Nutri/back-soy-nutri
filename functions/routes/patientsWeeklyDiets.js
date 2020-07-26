@@ -9,6 +9,7 @@ const { AuthAdmin, AuthUser } = require("../utils/middlewareAuth");
 app.post("/addWeeklyDiet",(req, res) => {
     const rut = req.body.rut;
     var date = req.body.date;
+    var semana= req.body.semana;
     const day = req.body.day;
     const new_day = {    
         breakfast:  req.body.breakfast,
@@ -26,7 +27,8 @@ app.post("/addWeeklyDiet",(req, res) => {
     if (isEmpty(date)) errors.date = empty_error;
     else date = new Date(date).toISOString();
     if (isEmpty(day)) errors.day= empty_error;
-
+    if (isEmpty(semana)) errors.semana= empty_error;
+   
 
 
     if (Object.keys(errors).length > 0) return res.status(400).json(errors);
@@ -36,67 +38,41 @@ app.post("/addWeeklyDiet",(req, res) => {
       .then((doc) => {
         if (doc.exists) {
           
-          if (doc.data().weekly_diet) {
+          if (doc.data().weekly_diets) {
 
-            let dates = [];
-            for (let i = 0; i < doc.data().weekly_diet.length; i++) {
-              dates.push(doc.data().weekly_diet[i].date);
+            let semanas = [];
+         
+            for (let i = 0; i < doc.data().weekly_diets.length; i++) {
+              semanas.push(doc.data().weekly_diets[i].semana);
+             
             }
-
-            if (dates.indexOf(date) !== -1) {
-              let weekly_diet = doc.data().weekly_diet;
+            let caca = semanas.indexOf(semana);
+            let caca2 = caca !== -1;
+            return res.status(504).json({ caca2 });
+            if (caca != -1) {
+              //Si no existe la semana
               
-
-              //Hacer comprobacion de que el dia que se este ingresando
-              //no exista ya en la semana del weekly diet
-
-
-              if(day=="martes" ){
-                let tuesday=new_day ;
-                weekly_diet.push(tuesday);
-              }
-              else if(day=="miercoles"){
-                let wednesday=new_day ;
-                weekly_diet.push(wednesday);
-
-              }
-              else if(day=="jueves"){
-                let thursday=new_day ;
-                weekly_diet.push(thursday);
-
-              }
-              else if(day=="viernes"){
-                let friday=new_day ;
-                weekly_diet.push(friday);
-
-              }
-              else if(day=="sabado"){
-                let saturday=new_day ;
-                weekly_diet.push(saturday);
-
-              }
-              else if(day=="domingo"){
-                let sunday=new_day ;
-                weekly_diet.push(sunday);
-              }
-              
-              db.collection("patients").doc(rut).update({weekly_diet});
-              return res.status(200).json({ message: "Weekly diet and a day has been added." });
+              db.collection("patients").doc(rut).update({weekly_diets:{semana:semana,date:date,[day]:new_day}});
+              return res.status(200).json({ message: "Week and a day has been added." });
             } else {
-              //ya que no existe la fecha ingresada agregar que abajo
+              //si existe la semana pero faltan dias agregarlos
+              
+
+              
+
               return res
                 .status(400)
-                .json({ error: "The date of this Weekly diet is already taken." });
+                .json({ error: "this week is already busy." });
             }
           }else {
-            let monday = new_day;
-           // return res.status(405).json({date:date,[day]:new_day});
+           
+           // return res.status(405).json({weekly_diets: {date:date,semana:semana,[day]:new_day}});
             db.collection("patients")
               .doc(rut)
-              .update({ weekly_diet: [ {date:date,[day]:new_day}] });
+              .update({ weekly_diets: [ {semana:semana,date:date,[day]:new_day}] });
       
             
-            return res.status(200).json({ message: "Daily diet added." });
+            return res.status(200).json({ message: "Week and a day has been added." });
           }
         } else {
           return res.status(400).json({ error: "Patient not found." });
