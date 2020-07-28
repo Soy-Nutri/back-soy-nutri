@@ -63,6 +63,47 @@ app.get("/getInfo", (req, res) => {
     });
 });
 
+app.put("/modifyInfo", (req, res) => {
+  const info = {
+    nutriName: req.body.nutriName,
+    academicInfo: req.body.academicInfo,
+    phoneNumber: req.body.phoneNumber,
+    consultAddress: req.body.consultAddress,
+    instagramProfile: req.body.instagramProfile,
+  };
+
+  let infoUpdate = {};
+
+  if (!isEmpty(info.nutriName)) infoUpdate.nutriName = info.nutriName;
+  if (!isEmpty(info.academicInfo)) infoUpdate.academicInfo = info.academicInfo;
+  if (!isEmpty(info.phoneNumber)) infoUpdate.phoneNumber = info.phoneNumber;
+  if (!isEmpty(info.consultAddress))
+    infoUpdate.consultAddress = info.consultAddress;
+  if (!isEmpty(info.instagramProfile))
+    infoUpdate.instagramProfile = info.instagramProfile;
+
+  db.collection("info")
+    .doc("nutriInfo")
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        db.collection("info").doc("nutriInfo").update(infoUpdate);
+        return res.status(200).json({
+          message: "Modified information!",
+        });
+      } else {
+        return res.status(400).json({
+          error: "There is no information!",
+        });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        error: err,
+      });
+    });
+});
+
 app.delete("/deleteInfo", (req, res) => {
   db.collection("info")
     .doc("nutriInfo")
