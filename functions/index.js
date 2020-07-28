@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 //Routes
 app.use("/adminAuth", require("./routes/adminAuth"));
 app.use("/admin", require("./routes/admin"));
+app.use("/patients", require("./routes/patients"));
 app.use("/patientsAuth", require("./routes/patientsAuth"));
 app.use("/patientsCarnet", require("./routes/patientsCarnet"));
 app.use("/patientsDailyDiets", require("./routes/patientsDailyDiets"));
