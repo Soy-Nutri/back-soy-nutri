@@ -5,7 +5,7 @@ const { db, firebase, admin, firebaseConfig } = require("../utils/init");
 const { AuthAdmin } = require("../utils/middlewareAuth");
 const { isEmpty } = require("../utils/functions");
 
-app.post("/addInfo", (req, res) => {
+app.post("/addInfo", AuthAdmin, (req, res) => {
   const info = {
     nutriName: req.body.nutriName,
     academicInfo: req.body.academicInfo,
@@ -63,7 +63,7 @@ app.get("/getInfo", (req, res) => {
     });
 });
 
-app.put("/modifyInfo", (req, res) => {
+app.put("/modifyInfo", AuthAdmin, (req, res) => {
   const info = {
     nutriName: req.body.nutriName,
     academicInfo: req.body.academicInfo,
@@ -104,7 +104,7 @@ app.put("/modifyInfo", (req, res) => {
     });
 });
 
-app.delete("/deleteInfo", (req, res) => {
+app.delete("/deleteInfo", AuthAdmin, (req, res) => {
   db.collection("info")
     .doc("nutriInfo")
     .get()
@@ -138,6 +138,30 @@ app.post("/uploadPdf/:nameFolder/:name", AuthAdmin, (req, res) => {
   let fileName;
   let fileToBeUploaded = {};
 
+  var Documents = [];
+  db.doc(`/info/Documents`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        for (let i = 0; i < doc.data().Documents.length; i++) {
+          if (
+            doc.data().Documents[i].folder === req.params.nameFolder &&
+            doc.data().Documents[i].name === req.params.name
+          ) {
+            return res.status(200).json({ error: "This file exits." });
+          }
+        }
+        if (doc.data().Documents.length > 0) {
+          Documents = doc.data().Documents;
+        }
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(500).json({ error: err.code });
+    });
+  console.log(Documents);
+
   busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
     // console.log(mimetype);
     if (mimetype !== "application/pdf") {
@@ -164,7 +188,16 @@ app.post("/uploadPdf/:nameFolder/:name", AuthAdmin, (req, res) => {
       })
       .then(() => {
         const url = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${req.params.nameFolder}%2F${fileName}?alt=media`;
-        return res.status(200).json({ message: url });
+        Documents.push({
+          folder: req.params.nameFolder,
+          name: req.params.name,
+          url,
+        });
+        db.doc(`/info/Documents`).set({
+          Documents,
+        });
+        //return res.status(200).json({ message: url });
+        return res.status(200).json({ message: "File uploaded successfully." });
       })
       .catch((err) => {
         console.log(err);
@@ -172,6 +205,54 @@ app.post("/uploadPdf/:nameFolder/:name", AuthAdmin, (req, res) => {
       });
   });
   busboy.end(req.rawBody);
+});
+
+app.get("/getDocuments", (req, res) => {
+  db.doc(`/info/Documents`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        return res.status(200).json({ Documents: doc.data().Documents });
+      } else {
+        return res.status(400).json({ error: "There are no files." });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(500).json({ error: err.code });
+    });
+});
+
+app.delete("/deleteDocuments", AuthAdmin, (req, res) => {
+  db.doc(`/info/Documents`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        let Documents = [];
+        for (let i = 0; i < doc.data().Documents.length; i++) {
+          if (
+            !(
+              doc.data().Documents[i].folder === req.body.nameFolder &&
+              doc.data().Documents[i].name === req.body.name
+            )
+          ) {
+            Documents.push(doc.data().Documents[i]);
+          }
+        }
+        if (Documents.length === doc.data().Documents.length) {
+          return res.status(400).json({ error: "File not found" });
+        } else {
+          db.doc(`/info/Documents`).set({
+            Documents,
+          });
+        }
+      }
+      return res.status(400).json({ error: "There are no files." });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(500).json({ error: err.code });
+    });
 });
 
 module.exports = app;
