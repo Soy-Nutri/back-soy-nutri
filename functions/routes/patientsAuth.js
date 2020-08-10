@@ -99,21 +99,25 @@ app.post("/login", (req, res) => {
       return db.collection("patients").doc(credentials.rut).get();
     })
     .then((doc) => {
-      return res.json({
-        token,
-        rut: doc.data().rut,
-        names: doc.data().names,
-        father_last_name: doc.data().father_last_name,
-        mother_last_name: doc.data().mother_last_name,
-        city: doc.data().city,
-        state: doc.data().state,
-        in_date: doc.data().in_date,
-        email: doc.data().email,
-        phone: doc.data().phone,
-        birth_date: doc.data().birth_date,
-        sex: doc.data().sex,
-        alimentation: doc.data().alimentation,
-      });
+      if (doc.data().state === "activo") {
+        return res.json({
+          token,
+          rut: doc.data().rut,
+          names: doc.data().names,
+          father_last_name: doc.data().father_last_name,
+          mother_last_name: doc.data().mother_last_name,
+          city: doc.data().city,
+          state: doc.data().state,
+          in_date: doc.data().in_date,
+          email: doc.data().email,
+          phone: doc.data().phone,
+          birth_date: doc.data().birth_date,
+          sex: doc.data().sex,
+          alimentation: doc.data().alimentation,
+        });
+      } else {
+        return res.status(400).json({ error: "User inactive." });
+      }
     })
     .catch((error) => {
       switch (error.code) {
