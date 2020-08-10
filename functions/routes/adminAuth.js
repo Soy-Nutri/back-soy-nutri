@@ -9,11 +9,13 @@ app.post("/signup", (req, res) => {
   const credentials = {
     rut: req.body.rut.toString(),
     password: req.body.password.toString(),
+    name: req.body.name.toString(),
   };
 
   let errors = {};
   if (isEmpty(credentials.rut)) errors.rut = "Must no be empty";
   if (isEmpty(credentials.password)) errors.password = "Must no be empty";
+  if (isEmpty(credentials.name)) errors.name = "Must no be empty";
 
   if (Object.keys(errors).length > 0) return res.status(400).json(errors);
 
@@ -37,6 +39,7 @@ app.post("/signup", (req, res) => {
             const newUser = {
               rut: credentials.rut,
               createdAt: new Date().toISOString(),
+              name: credentials.name,
               userId: userId,
             };
             return db.doc(`/admin/${newUser.rut}`).set(newUser);
