@@ -25,7 +25,7 @@ app.get("/getId", AuthAdmin, (req, res) => {
       res.status(200).json(data);
     })
     .catch((err) => {
-      res.status(502).json({ mensaje: err });
+      res.status(500).json({ mensaje: err });
     });
 });
 
@@ -57,7 +57,7 @@ app.get("/getPerfil/:rut/:user", decideMiddleware, (req, res) => {
 });
 
 app.delete("/deletePerfil", AuthAdmin, (req, res) => {
-  const rut = req.body.rut;
+  const rut = req.body.rut.toString();
   db.doc(`/patients/${rut}`)
     .get()
     .then((doc) => {
