@@ -122,13 +122,13 @@ app.post("/login", (req, res) => {
     .catch((error) => {
       switch (error.code) {
         case "auth/user-not-found":
-          return res.status(500).json({ error: "User not found" });
+          return res.status(404).json({ error: "User not found" });
         case "auth/wrong-password":
-          return res.status(500).json({ error: "Wrong password" });
+          return res.status(409).json({ error: "Wrong password" });
         case "auth/invalid-email":
-          return res.status(500).json({ error: "Invalid user" });
+          return res.status(409).json({ error: "Invalid user" });
         default:
-          return res.status(500).json({ error: error.code });
+          return res.status(500).json({ error: error });
       }
     });
 });
@@ -163,13 +163,13 @@ app.post("/changePassword", AuthUser, (req, res) => {
     .catch((error) => {
       switch (error.code) {
         case "auth/user-not-found":
-          return res.status(500).json({ error: "User not found" });
+          return res.status(404).json({ error: "User not found" });
         case "auth/wrong-password":
-          return res.status(500).json({ error: "Wrong password" });
+          return res.status(409).json({ error: "Wrong password" });
         case "auth/invalid-email":
-          return res.status(500).json({ error: "Invalid user" });
+          return res.status(409).json({ error: "Invalid user" });
         default:
-          return res.status(500).json({ error: error.code });
+          return res.status(500).json({ error: error });
       }
     });
 });
