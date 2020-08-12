@@ -379,9 +379,9 @@
 
 
 
-### 2X. Add a weekly diet.
+### 20. Add a weekly diet.
 
-- Url: 
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsWeeklyDiets/addWeeklyDiet
 - Tipo de petición: POST
 - Parámetros:
   - NA.
