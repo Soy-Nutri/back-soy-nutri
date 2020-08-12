@@ -22,10 +22,14 @@ app.post("/addWeeklyDiet", AuthAdmin, (req, res) => {
   const day = normalize(req.body.day.toLowerCase());
   const new_day = {
     breakfast: req.body.breakfast,
+    timeBreakfast: req.body.timeBreakfast,
     lunch: req.body.lunch,
+    timelunch: req.body.timelunch,
     snack: req.body.snack,
+    timeSnack: req.body.timeSnack,
     post_training: req.body.post_training,
     dinner: req.body.dinner,
+    timeDinner: req.body.timeDinner,
   };
 
   const days_of_week = [
@@ -232,10 +236,14 @@ app.put("/modifyWeeklyDiets", AuthAdmin, (req, res) => {
   const day = normalize(req.body.day.toLowerCase());
   const day_info = {
     breakfast: req.body.breakfast,
+    timeBreakfast: req.body.timeBreakfast,
     lunch: req.body.lunch,
+    timelunch: req.body.timelunch,
     snack: req.body.snack,
+    timeSnack: req.body.timeSnack,
     post_training: req.body.post_training,
     dinner: req.body.dinner,
+    timeDinner: req.body.timeDinner,
   };
 
   const days_of_week = [
@@ -278,17 +286,33 @@ app.put("/modifyWeeklyDiets", AuthAdmin, (req, res) => {
               if (day_info.breakfast !== "") {
                 new_day[id][day].breakfast = day_info.breakfast;
               }
+              if (day_info.timeBreakfast !== "") {
+                new_day[id][day].timeBreakfast = day_info.timeBreakfast;
+              }
+
               if (day_info.lunch !== "") {
                 new_day[id][day].lunch = day_info.lunch;
               }
+              if (day_info.timeLunch !== "") {
+                new_day[id][day].timeLunch = day_info.timeLunch;
+              }
+
               if (day_info.snack !== "") {
                 new_day[id][day].snack = day_info.snack;
               }
+              if (day_info.timeSnack !== "") {
+                new_day[id][day].timeSnack = day_info.timeSnack;
+              }
+
               if (day_info.post_training !== "") {
                 new_day[id][day].post_training = day_info.post_training;
               }
+
               if (day_info.dinner !== "") {
                 new_day[id][day].dinner = day_info.dinner;
+              }
+              if (day_info.timeDinner !== "") {
+                new_day[id][day].timeDinner = day_info.timeDinner;
               }
               db.doc(`/patients/${rut}`).update({ weekly_diets: new_day });
               return res.status(200).json({ message: "Change data." });
