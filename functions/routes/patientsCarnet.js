@@ -270,7 +270,10 @@ app.post("/deleteControl", (req, res) => {
           if (doc.data().controls.length > 0) {
             let controls = [];
             for (let i = 0; i < doc.data().controls.length; i++) {
-              if (doc.data().controls[i].date !== date) {
+              if (
+                doc.data().controls[i].date.toString().substring(0, 10) !==
+                date.toString().substring(0, 10)
+              ) {
                 controls.push(doc.data().controls[i]);
               }
             }
@@ -280,7 +283,7 @@ app.post("/deleteControl", (req, res) => {
                 messaje: "The controls was delete.",
               });
             } else {
-              return res.status(401).json({
+              return res.status(403).json({
                 error: "The patients not have controls with this date.",
               });
             }
