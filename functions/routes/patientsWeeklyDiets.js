@@ -215,7 +215,7 @@ app.get("/getWeeklyDiets/:rut/:date/:user", decideMiddleware, (req, res) => {
           for (let i = 0; i < doc.data().weekly_diets.length; i++) {
             if (
               doc.data().weekly_diets[i].date ===
-              new Date(date + "T04:00:00.000Z").toISOString()
+              new Date(date).toISOString()
             ) {
               return res
                 .status(200)
