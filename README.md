@@ -376,10 +376,14 @@
   - extra_info
 - Respuesta: estado (status code) y mensaje
 
+### 20. Get a daily diet.
+
+### 21. Modify a daily diet.
+
+### 22. Delete a daily diet.
 
 
-
-### 20. Add a weekly diet.
+### 23. Add a weekly diet.
 
 - Url: https://us-central1-back-f0378.cloudfunctions.net/api/patientsWeeklyDiets/addWeeklyDiet
 - Tipo de petición: POST
@@ -399,3 +403,22 @@
   - dinner
 
 - Respuesta: estado (status code) y mensaje
+
+### 23. Get a weekly diet.
+
+### 23. Modify a weekly diet.
+
+### 23. Delete a weekly diet.
+
+### 24. Get statistics of patients
+- Url: https://us-central1-back-f0378.cloudfunctions.net/api/patients/getStatistics
+- Tipo de petición: GET
+- Parámetros:
+  - NA.
+- Restricciones:
+  - key: Authorization
+  - value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+  - NA.
+
+- Respuesta: estado (status code), mensaje y datos de cuantificación de alimentación, ciudad, sexo, edad y cantidad de pacientes.
