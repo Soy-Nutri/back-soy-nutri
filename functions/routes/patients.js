@@ -46,6 +46,7 @@ app.get("/getPerfil/:rut/:user", decideMiddleware, (req, res) => {
           birth_date: doc.data().birth_date,
           sex: doc.data().sex,
           alimentation: doc.data().alimentation,
+          state: doc.data().state,
         });
       } else {
         return res.status(404).json({ message: "User not found." });
@@ -56,8 +57,9 @@ app.get("/getPerfil/:rut/:user", decideMiddleware, (req, res) => {
     });
 });
 
-app.delete("/deletePerfil", AuthAdmin, (req, res) => {
-  const rut = req.body.rut.toString();
+app.post("/deletePerfil", AuthAdmin, (req, res) => {
+  const rut = req.body.rut;
+  console.log(req.body.rut);
   db.doc(`/patients/${rut}`)
     .get()
     .then((doc) => {
@@ -90,7 +92,7 @@ app.post("/activePerfil", AuthAdmin, (req, res) => {
     });
 });
 
-app.put("/modifyPerfil", AuthAdmin, (req, res) => {
+app.post("/modifyPerfil", AuthAdmin, (req, res) => {
   const rut = req.body.rut;
   const newPerfil = {
     names: req.body.names,
