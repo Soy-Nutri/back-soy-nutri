@@ -144,4 +144,64 @@ app.post("/modifyPerfil", AuthAdmin, (req, res) => {
     });
 });
 
+// get statistical data of all the patients
+app.get("/getStatistics", AuthAdmin, (req, res) => {
+  db.collection("patients")
+    .get()
+    .then((patients) => {
+      let data = {
+        alimentation: {},
+        city: {},
+        sex: {},
+        age: {},
+        nPatients: 0,
+      };
+
+      patients.forEach((doc) => {
+        data.nPatients = data.nPatients + 1;
+        if (!data.alimentation[doc.data().alimentation]) {
+          data.alimentation[doc.data().alimentation] = 1;
+        } else {
+          data.alimentation[doc.data().alimentation] =
+            data.alimentation[doc.data().alimentation] + 1;
+        }
+        if (!data.city[doc.data().city]) {
+          data.city[doc.data().city] = 1;
+        } else {
+          data.city[doc.data().city] = data.city[doc.data().city] + 1;
+        }
+        if (!data.sex[doc.data().sex]) {
+          data.sex[doc.data().sex] = 1;
+        } else {
+          data.sex[doc.data().sex] = data.sex[doc.data().sex] + 1;
+        }
+        let patientAge = getAge(doc.data().birth_date);
+        if (!data.age[patientAge]) {
+          data.age[patientAge] = 1;
+        } else {
+          data.age[patientAge] = data.age[patientAge] + 1;
+        }
+      });
+
+      res.status(200).json(data);
+    })
+    .catch((err) => {
+      res.status(500).json({ mensaje: err });
+    });
+});
+
+// helper functions
+
+// get age by birth day
+function getAge(dateString) {
+  var today = new Date();
+  var birthDate = new Date(dateString);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+}
+
 module.exports = app;
