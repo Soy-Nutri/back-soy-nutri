@@ -257,7 +257,7 @@ app.put("/modifyControl", AuthAdmin, (req, res) => {
     });
 });
 
-app.delete("/deleteControl", AuthAdmin, (req, res) => {
+app.post("/deleteControl", (req, res) => {
   //The date must input in this format YYYY/MM/DD
   const rut = req.body.rut;
   const date = new Date(req.body.date).toISOString();
@@ -280,7 +280,7 @@ app.delete("/deleteControl", AuthAdmin, (req, res) => {
                 messaje: "The controls was delete.",
               });
             } else {
-              return res.status(400).json({
+              return res.status(401).json({
                 error: "The patients not have controls with this date.",
               });
             }
@@ -295,7 +295,7 @@ app.delete("/deleteControl", AuthAdmin, (req, res) => {
             .json({ error: "The patients not have controls." });
         }
       } else {
-        return res.status(400).json({ error: "The patients not exits." });
+        return res.status(404).json({ error: "The patients not exits." });
       }
     })
     .catch((error) => {
