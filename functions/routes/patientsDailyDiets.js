@@ -253,7 +253,7 @@ app.delete("/deleteAllDailyDiets", AuthAdmin, (req, res) => {
 });
 
 // delete one daily diet from a patient, admin access required
-app.delete("/deleteDailyDiet", AuthAdmin, (req, res) => {
+app.post("/deleteDailyDiet", AuthAdmin, (req, res) => {
   // date format YYYY-MM-DD
   const rut = req.body.rut;
   const date = new Date(req.body.date).toISOString();
