@@ -50,7 +50,7 @@ app.post("/addWeeklyDiet", AuthAdmin, (req, res) => {
     errors.day = empty_error;
   }
   if (days_of_week.indexOf(day) === -1) {
-    return res.status(608).json({ message: "Day does not exist." });
+    return res.status(404).json({ message: "Day does not exist." });
   }
 
   if (Object.keys(errors).length > 0) return res.status(400).json(errors);
@@ -86,11 +86,11 @@ app.post("/addWeeklyDiet", AuthAdmin, (req, res) => {
               let ndays = removeItemFromArr(days, "date");
               if (ndays.length >= 7) {
                 return res
-                  .status(400)
+                  .status(401)
                   .json({ error: "The week can not have more than 7 days." });
               } else {
                 if (ndays.indexOf(day) !== -1) {
-                  return res.status(501).json({
+                  return res.status(402).json({
                     message: "The day that you are posting is already here.",
                   });
                 } else {
@@ -101,14 +101,14 @@ app.post("/addWeeklyDiet", AuthAdmin, (req, res) => {
                       db.collection("patients")
                         .doc(rut)
                         .update({ weekly_diets });
-                      return res.status(600).json({ message: "Added monday." });
+                      return res.status(200).json({ message: "Added monday." });
                     } else if (day == days_of_week[1]) {
                       weekly_diets[actual_week][day] = new_day;
                       db.collection("patients")
                         .doc(rut)
                         .update({ weekly_diets });
                       return res
-                        .status(600)
+                        .status(200)
                         .json({ message: "Added thuesday." });
                     } else if (
                       day == days_of_week[2] ||
@@ -119,7 +119,7 @@ app.post("/addWeeklyDiet", AuthAdmin, (req, res) => {
                         .doc(rut)
                         .update({ weekly_diets });
                       return res
-                        .status(601)
+                        .status(200)
                         .json({ message: "Added wednesday." });
                     } else if (day == days_of_week[3]) {
                       weekly_diets[actual_week][day] = new_day;
@@ -127,14 +127,14 @@ app.post("/addWeeklyDiet", AuthAdmin, (req, res) => {
                         .doc(rut)
                         .update({ weekly_diets });
                       return res
-                        .status(602)
+                        .status(200)
                         .json({ message: "Added thursday." });
                     } else if (day == days_of_week[4]) {
                       weekly_diets[actual_week][day] = new_day;
                       db.collection("patients")
                         .doc(rut)
                         .update({ weekly_diets });
-                      return res.status(603).json({ message: "Added friday." });
+                      return res.status(200).json({ message: "Added friday." });
                     } else if (
                       day == days_of_week[5] ||
                       day == days_of_week[9]
@@ -144,17 +144,17 @@ app.post("/addWeeklyDiet", AuthAdmin, (req, res) => {
                         .doc(rut)
                         .update({ weekly_diets });
                       return res
-                        .status(604)
+                        .status(200)
                         .json({ message: "Added saturday." });
                     } else if (day == days_of_week[6]) {
                       weekly_diets[actual_week][day] = new_day;
                       db.collection("patients")
                         .doc(rut)
                         .update({ weekly_diets });
-                      return res.status(605).json({ message: "Added sunday" });
+                      return res.status(200).json({ message: "Added sunday" });
                     } else {
                       return res
-                        .status(606)
+                        .status(404)
                         .json({ message: "This day does not exist." });
                     }
                   }
@@ -214,18 +214,17 @@ app.get("/getWeeklyDiets/:rut/:date/:user", decideMiddleware, (req, res) => {
         } else {
           for (let i = 0; i < doc.data().weekly_diets.length; i++) {
             if (
-              doc.data().weekly_diets[i].date ===
-              new Date(date).toISOString()
+              doc.data().weekly_diets[i].date === new Date(date).toISOString()
             ) {
               return res
                 .status(200)
                 .json({ Weekly_Diet: doc.data().weekly_diets[i] });
             }
           }
-          return res.status(400).json({ message: "Weekly diets not found." });
+          return res.status(404).json({ message: "Weekly diets not found." });
         }
       } else {
-        return res.status(400).json({ message: "Weekly diets not found." });
+        return res.status(404).json({ message: "Weekly diets not found." });
       }
     });
 });
@@ -396,7 +395,7 @@ app.delete("/deleteWeeklyDiets", AuthAdmin, (req, res) => {
     });
 });
 
-app.delete("/deleteWeekOfWeeklyDiets", AuthAdmin, (req, res) => {
+app.post("/deleteWeekOfWeeklyDiets", AuthAdmin, (req, res) => {
   const rut = req.body.rut;
   var date = req.body.date;
 
@@ -436,7 +435,7 @@ app.delete("/deleteWeekOfWeeklyDiets", AuthAdmin, (req, res) => {
     });
 });
 
-app.delete("/deleteAllWeeklyDiets", AuthAdmin, (req, res) => {
+app.post("/deleteAllWeeklyDiets", AuthAdmin, (req, res) => {
   const rut = req.body.rut;
 
   const empty_error = "Must not be empty";
