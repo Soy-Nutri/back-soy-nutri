@@ -402,22 +402,100 @@
   - post_training (not mandatory)
   - dinner
 
-- Respuesta: estado (status code) y mensaje
+- Respuesta: estado (status code).
 
-### 23. Get a weekly diet.
+### 24. Get a weekly diet.
 
-### 23. Modify a weekly diet.
 
-### 23. Delete a weekly diet.
+  Url:https://us-central1-back-f0378.cloudfunctions.net/api/patientsWeeklyDiets/getWeeklyDiets
+  - Tipo de petición: GET
+- Parámetros:
+  - NA.
+- Restricciones:
+  - Key: Authorization
+  - Value: Bearer + Token inicio de sesión del administrador o paciente
+- Campos necesarios:
+  - Rut
+  - Date
 
-### 24. Get statistics of patients
+- Respuesta: estado (status code).
+### 25. Get all weekly diets.
+
+ Url:https://us-central1-back-f0378.cloudfunctions.net/api/patientsWeeklyDiets/getAllWeeklyDiets
+- Tipo de petición: GET
+- Parámetros:
+  - NA.
+- Restricciones:
+  - Key: Authorization
+  - Value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+  - Rut
+  - Date
+
+- Respuesta: estado (status code).
+
+### 26. Modify a weekly diet.
+
+ Url:https://us-central1-back-f0378.cloudfunctions.net/api/patientsWeeklyDiets/modifyWeeklyDiets
+- Tipo de petición: PUT
+- Parámetros:
+  - NA.
+- Restricciones:
+  - Key: Authorization
+  - Value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+  - Rut
+  - Date
+  - Day
+  - Breakfast
+  - Lunch
+  - Snack
+  - Post_training (not mandatory)
+  - Dinner
+
+- Respuesta: estado (status code).
+
+### 27. Delete day of weekly diet.
+
+ Url:https://us-central1-back-f0378.cloudfunctions.net/api/patientsWeeklyDiets/deleteWeeklyDiets
+- Tipo de petición: DEL
+- Parámetros:
+  - NA.
+- Restricciones:
+  - Key: Authorization
+  - Value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+  - Rut
+  - Date
+  - Day
+
+- Respuesta: estado (status code).
+
+### 28. Delete a week of weekly diet.
+
+ Url:https://us-central1-back-f0378.cloudfunctions.net/api/patientsWeeklyDiets/deleteWeekOfWeeklyDiets
+- Tipo de petición: DEL
+- Parámetros:
+  - NA.
+- Restricciones:
+  - Key: Authorization
+  - Value: Bearer + Token inicio de sesión del administrador
+- Campos necesarios:
+  - Rut
+  - Date
+
+- Respuesta: estado (status code).
+
+
+
+### 29. Get statistics of patients
 - Url: https://us-central1-back-f0378.cloudfunctions.net/api/patients/getStatistics
 - Tipo de petición: GET
 - Parámetros:
   - NA.
 - Restricciones:
-  - key: Authorization
-  - value: Bearer + Token inicio de sesión del administrador
+  - Key: Authorization
+  - Value: Bearer + Token inicio de sesión del administrador
 - Campos necesarios:
   - NA.
 
