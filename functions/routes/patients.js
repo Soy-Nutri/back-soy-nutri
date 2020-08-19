@@ -190,6 +190,23 @@ app.get("/getStatistics", AuthAdmin, (req, res) => {
     });
 });
 
+app.delete("/delete/:rut", AuthAdmin, (req, res) => {
+  const rut = req.params.rut;
+  db.doc(`/patients/${rut}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        db.collection("patients").doc(rut).delete();
+        return res.status(200).json({ message: "Successfully removed." });
+      } else {
+        return res.status(404).json({ message: "User not found." });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({ message: "Error" });
+    });
+});
+
 // helper functions
 
 // get age by birth day
